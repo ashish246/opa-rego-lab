@@ -1,17 +1,5 @@
 package anz
 
-main = result {
-# 	ad_groups := get_ad_groups_for_user(input.user)
-#     result := {
-#     	"ad_groups": ad_groups
-#     }
-    
-    entitlements := get_entitlment_set_for_user_group_role(input.user, input.group, input.role)
-    result := {
-    	"entitlements": entitlements
-    }
-}
-
 #GET /entitlements?
 #                role=x
 #                adGroups=y
@@ -24,7 +12,7 @@ main = result {
 #}             
 #]
 entitlements = x {
-	x := ""
+	x := get_entitlment_set_for_user_group_role(input.user, input.group, input.role)
 }
 
 #GET /roles?
