@@ -27,7 +27,7 @@ entitlements = x {
 #                }
 #]
 roles = x {
-	x := ""
+	x := "To Do"
 }
 
 # GET /adGroups?
@@ -43,7 +43,7 @@ roles = x {
 #                ]
 #]
 ad_groups = x {
-	x := ""
+	x := "To Do"
 }
 
 # For the supplied User, get the set of AD Groups.
@@ -80,9 +80,10 @@ get_entitlment_set_for_user_group_role(user_in, ad_group_in, role_in) = entitlem
     
     # Entitlements for AD Group
     ad_group_roles := get_role_set_for_ad_group(ad_group_in)
-    ad_group_entitlement_id_set := { ad_group_role: ad_group_entitlement_id |
-        ad_group_role := ad_group_roles[_]
-        ad_group_entitlement_id := data.role2EntitlementIds[ad_group_role]
+    ad_group_roles_to_entitlement_id_set := { ad_group_role: ad_group_entitlement_id |
+        some i
+            ad_group_role := ad_group_roles[i]
+            ad_group_entitlement_id := data.role2EntitlementIds[ad_group_role]
     }
 
     # Entitlements for Role
@@ -93,11 +94,11 @@ get_entitlment_set_for_user_group_role(user_in, ad_group_in, role_in) = entitlem
 	#final_ent_array := [ent | final_ent_set[ent]]
     
     entitlement_set_out := {
-        #"type_name(user_entitlement_id_set)=": type_name(user_entitlement_id_set),
-        #"type_name(ad_group_entitlement_id_set)=": type_name(ad_group_entitlement_id_set),
-        #"type_name(role_entitlement_ids)=": type_name(role_entitlement_ids),
+        "type_name(user_entitlement_id_set)=": type_name(user_entitlement_id_set),
+        "type_name(ad_group_entitlement_id_set)=": type_name(ad_group_roles_to_entitlement_id_set),
+        "type_name(role_entitlement_ids)=": type_name(role_entitlement_ids),
         "user_entitlement_id_set=": user_entitlement_id_set,
-        "ad_group_entitlement_id_set=": ad_group_entitlement_id_set,
+        "ad_group_entitlement_id_set=": ad_group_roles_to_entitlement_id_set,
         "role_entitlement_ids=": role_entitlement_ids
     }
 }
